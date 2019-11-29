@@ -1,0 +1,12 @@
+# IDE Configuration
+.idea/
+*.iml
+*.swp
+
+# Backend Code
+backend/**/*.pyc
+
+# Website Code
+website/.cache
+website/dist
+website/node_modules
