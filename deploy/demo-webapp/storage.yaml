@@ -1,0 +1,83 @@
+#
+# Defines database schemas that the storage database will need to have present.
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    eastlink/app: storage
+  namespace: demo-webapp
+  name: storage-schemas
+data:
+  10-todos-table-schema.sql: |-
+    create table if not exists todos (
+        uuid varchar(36) not null,
+        name tinytext not null,
+        constraint todos_pk primary key (uuid)
+    );
+---
+#
+# Creates instances of the storage database container.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    eastlink/app: storage
+  namespace: demo-webapp
+  name: storage
+spec:
+  selector:
+    matchLabels:
+      eastlink/app: storage
+  template:
+    metadata:
+      labels:
+        eastlink/app: storage
+    spec:
+      containers:
+        - name: storage
+          image: mariadb
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: todos
+            - name: MYSQL_USER
+              value: todos
+            - name: MYSQL_PASSWORD
+              value: supersecret
+            - name: MYSQL_RANDOM_ROOT_PASSWORD
+              value: "true"
+          volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d
+              name: storage-bootstrap
+          livenessProbe:
+            exec:
+              command: ["sh", "-c", "mysqladmin -u$MYSQL_USER -p$MYSQL_PASSWORD ping"]
+            initialDelaySeconds: 10
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -e 'SELECT 1'"]
+            initialDelaySeconds: 15
+      volumes:
+        - name: storage-bootstrap
+          configMap:
+            name: storage-schemas
+---
+#
+# Allow other containers within the cluster to access the storage database.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    eastlink/app: storage
+  namespace: demo-webapp
+  name: storage
+spec:
+  ports:
+    - port: 3306
+      protocol: TCP
+  selector:
+    eastlink/app: storage

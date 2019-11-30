@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    eastlink/app: backend
+  namespace: demo-webapp
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      eastlink/app: backend
+  template:
+    metadata:
+      labels:
+        eastlink/app: backend
+    spec:
+      containers:
+        - name: backend
+          image: jitsusama/demo-webapp-backend:v1.0.0-b.7
+          env:
+            - name: STORAGE_DB_URI
+              value: mysql+pymysql://todos:supersecret@storage/todos
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "100Mi"
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /healthy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    eastlink/app: backend
+  namespace: demo-webapp
+  name: backend
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+  selector:
+    eastlink/app: backend
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    eastlink/app: backend
+  namespace: demo-webapp
+  name: backend
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api
+            backend:
+              serviceName: backend
+              servicePort: 8080
