@@ -8,11 +8,11 @@ from backend.todos import Todo
 def create_service_entrypoint(logic: Logic) -> Flask:
     service_entrypoint = Flask(__name__)
 
-    @service_entrypoint.route('/api/todos', methods=['GET'])
+    @service_entrypoint.route('/todos', methods=['GET'])
     def get_todos() -> Response:
         return jsonify(logic.retrieve_todos())
 
-    @service_entrypoint.route('/api/todos', methods=['POST'])
+    @service_entrypoint.route('/todos', methods=['POST'])
     def create_todo() -> Response:
         name = request.data.decode('utf8')
         todo = Todo(name)
@@ -20,7 +20,7 @@ def create_service_entrypoint(logic: Logic) -> Flask:
 
         return Response(status=204)
 
-    @service_entrypoint.route('/api/todos/<string:uuid>', methods=['DELETE'])
+    @service_entrypoint.route('/todos/<string:uuid>', methods=['DELETE'])
     def delete_todo(uuid: str):
         logic.delete_todo(uuid)
 

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: website
-          image: jitsusama/demo-webapp-website:v1.0.0-b.3
+          image: jitsusama/demo-webapp-website:v1.0.0-b.4
           ports:
             - containerPort: 8080
           resources:
