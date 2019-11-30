@@ -7,7 +7,10 @@ function Form({afterAdd, onError}) {
     const changeName = event => setName(event.target.value);
     const submitForm = event => {
         event.preventDefault();
-        addTodo(name).then(afterAdd).catch(onError);
+        addTodo(name).then(() => {
+            afterAdd();
+            onError(undefined);
+        }).catch(onError);
     };
 
     return <form onSubmit={submitForm}>
@@ -28,7 +31,10 @@ function List({todos, error, afterDelete, onDeleteError}) {
 function Item({todo, afterDelete, onError}) {
     const onDelete = (event, uuid) => {
         event.preventDefault();
-        deleteTodo(uuid).then(afterDelete).catch(onError);
+        deleteTodo(uuid).then(() => {
+            afterDelete();
+            onError(undefined);
+        }).catch(onError);
     };
 
     return <li>{todo.name}
@@ -42,7 +48,10 @@ export function App() {
     let [listError, setListError] = useState(undefined);
 
     const updateTodos = () => {
-        retrieveTodos().then(setTodos).catch(setListError);
+        retrieveTodos().then(todos => {
+            setTodos(todos);
+            setListError(undefined);
+        }).catch(setListError);
     };
     useEffect(() => updateTodos());
 
