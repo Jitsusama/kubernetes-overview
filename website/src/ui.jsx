@@ -48,12 +48,12 @@ export function App() {
     let [listError, setListError] = useState(undefined);
 
     const updateTodos = () => {
-        retrieveTodos().then(todos => {
-            setTodos(todos);
-            setListError(undefined);
-        }).catch(setListError);
+        retrieveTodos()
+            .then(setTodos)
+            .then(() => setListError(undefined))
+            .catch(setListError);
     };
-    useEffect(() => updateTodos());
+    useEffect(() => updateTodos(), []);
 
     return <main>
         <Form afterAdd={updateTodos} onError={setAddError}/>

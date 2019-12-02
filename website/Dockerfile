@@ -2,8 +2,8 @@ FROM node:12-alpine AS build
 
 WORKDIR /build
 COPY ./package.json ./package-lock.json ./
-COPY ./src/ ./src/
 RUN npm install
+COPY ./src/ ./src/
 RUN npm run build
 
 FROM node:12-alpine AS app
