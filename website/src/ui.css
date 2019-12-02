@@ -42,10 +42,11 @@
 
 .todoItem {
     font-size: 1.4em;
+    padding: .15em 0;
 }
 
 .todoItem button {
-    padding: .25em .5em;
+    padding: .02em .5em;
     margin: 0 0 0 .5em;
     border: 1px;
     font-size: 1.1rem;

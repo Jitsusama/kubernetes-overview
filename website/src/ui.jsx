@@ -9,6 +9,7 @@ function Form({afterAdd, onError}) {
     const submitForm = event => {
         event.preventDefault();
         addTodo(name).then(() => {
+            setName('');
             afterAdd();
             onError(undefined);
         }).catch(onError);

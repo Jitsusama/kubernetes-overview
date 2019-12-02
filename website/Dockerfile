@@ -3,6 +3,7 @@ FROM node:12-alpine AS build
 WORKDIR /build
 COPY ./package.json ./package-lock.json ./
 RUN npm install
+COPY ./.postcssrc ./
 COPY ./src/ ./src/
 RUN npm run build
 
