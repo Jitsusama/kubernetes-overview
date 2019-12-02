@@ -6,12 +6,7 @@ RUN npm install
 COPY ./src/ ./src/
 RUN npm run build
 
-FROM node:12-alpine AS app
+FROM nginx:alpine AS app
 
-WORKDIR /app
-COPY ./package.json ./package-lock.json ./
-RUN npm install --only=prod
-COPY ./server.js ./
-COPY --from=build /build/dist/ ./dist/
-
-ENTRYPOINT ["node", "./server.js"]
+WORKDIR /usr/share/nginx/html
+COPY --from=build /build/dist/ ./
