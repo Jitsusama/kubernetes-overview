@@ -1,7 +1,7 @@
 from typing import List
 
 import sqlalchemy
-from sqlalchemy import table, text
+from sqlalchemy import text
 
 from backend.todos import Todo
 
