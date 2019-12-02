@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: jitsusama/demo-webapp-backend:v1.0.0-b.8
+          image: jitsusama/demo-webapp-backend:v1.0.0-b.9
           env:
             - name: STORAGE_DB_URI
               value: mysql+pymysql://todos:supersecret@storage/todos

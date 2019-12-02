@@ -16,16 +16,15 @@ spec:
     spec:
       containers:
         - name: website
-          image: jitsusama/demo-webapp-website:v1.0.0-b.4
+          image: jitsusama/demo-webapp-website:v1.0.0-b.7
           ports:
             - containerPort: 8080
           resources:
             requests:
               memory: "100Mi"
           readinessProbe:
-            httpGet:
-              port: 8080
-              path: /healthy
+            tcpSocket:
+              port: 80
 ---
 apiVersion: v1
 kind: Service
@@ -36,7 +35,7 @@ metadata:
   name: website
 spec:
    ports:
-     - port:  8080
+     - port:  80
        protocol: TCP
    selector:
      eastlink/app: website
@@ -55,4 +54,4 @@ spec:
           - path: /
             backend:
               serviceName: website
-              servicePort: 8080
+              servicePort: 80
