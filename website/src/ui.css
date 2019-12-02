@@ -1,0 +1,58 @@
+.main {
+    box-sizing: border-box;
+    width: 41em;
+    padding-top: 2em;
+    margin: auto;
+    font-family: sans-serif;
+}
+
+.addTodo {
+    font-size: 1.4em;
+    display: block;
+}
+
+.addTodo label {
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.addTodo input[type=text] {
+    border: 0;
+    padding: .25em .5em;
+    margin: 0 .25em;
+    color: white;
+    background: gray;
+    font-size: 1rem;
+    width: 30em;
+}
+
+.addTodo button {
+    padding: .25em .5em;
+    margin: 0;
+    border: 1px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.todoList {
+    list-style: none;
+    padding: 1em 0;
+    margin: 0;
+}
+
+.todoItem {
+    font-size: 1.4em;
+}
+
+.todoItem button {
+    padding: .25em .5em;
+    margin: 0 0 0 .5em;
+    border: 1px;
+    font-size: 1.1rem;
+}
+
+.error {
+    display: block;
+    font-weight: bold;
+    color: red;
+}

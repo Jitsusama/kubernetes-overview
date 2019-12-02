@@ -1,5 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {addTodo, deleteTodo, retrieveTodos} from './logic';
+import uiStyle from './ui.css';
 
 function Form({afterAdd, onError}) {
     let [name, setName] = useState('');
@@ -13,7 +14,7 @@ function Form({afterAdd, onError}) {
         }).catch(onError);
     };
 
-    return <form onSubmit={submitForm}>
+    return <form onSubmit={submitForm} className={uiStyle.addTodo}>
         <label>add todo <input
             type="text" name="todo" onChange={changeName} value={name}/></label>
         <button>+</button>
@@ -21,8 +22,8 @@ function Form({afterAdd, onError}) {
 }
 
 function List({todos, error, afterDelete, onDeleteError}) {
-    if (error) return <b>{error}</b>;
-    if (todos) return <ul>{todos.map(todo =>
+    if (error) return <Error message={error}/>;
+    if (todos) return <ul className={uiStyle.todoList}>{todos.map(todo =>
         <Item todo={todo} afterDelete={afterDelete}
               onError={onDeleteError}/>)}</ul>;
     return <Fragment/>;
@@ -37,9 +38,13 @@ function Item({todo, afterDelete, onError}) {
         }).catch(onError);
     };
 
-    return <li>{todo.name}
-        <button onClick={event => onDelete(event, todo.uuid)}>X</button>
+    return <li className={uiStyle.todoItem}>{todo.name}
+        <button onClick={event => onDelete(event, todo.uuid)}>-</button>
     </li>;
+}
+
+function Error({message}) {
+    return message ? <p className={uiStyle.error}>{message}</p> : <Fragment/>;
 }
 
 export function App() {
@@ -55,9 +60,9 @@ export function App() {
     };
     useEffect(() => updateTodos(), []);
 
-    return <main>
+    return <main className={uiStyle.main}>
         <Form afterAdd={updateTodos} onError={setAddError}/>
-        {addError ? <p><b>{addError}</b></p> : null}
+        <Error message={addError}/>
         <List todos={todos} error={listError} afterDelete={updateTodos}/>
     </main>;
 }
