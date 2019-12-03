@@ -53,15 +53,15 @@ metadata:
   namespace: kube-system
   name: ingress-controller
   labels:
-    app: ingress-controller
+    k8s-app: ingress-controller
 spec:
   selector:
     matchLabels:
-      app: ingress-controller
+      k8s-app: ingress-controller
   template:
     metadata:
       labels:
-        app: ingress-controller
+        k8s-app: ingress-controller
         name: ingress-controller
     spec:
       serviceAccountName: cluster-ingress-controller
@@ -98,6 +98,8 @@ kind: Service
 metadata:
   namespace: kube-system
   name: ingress-controller
+  labels:
+    k8s-app: ingress-controller
 spec:
   type: LoadBalancer
   ports:
@@ -106,4 +108,4 @@ spec:
     - port: 8080
       name: http-admin
   selector:
-    app: ingress-controller
+    k8s-app: ingress-controller
