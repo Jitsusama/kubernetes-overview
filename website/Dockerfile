@@ -11,3 +11,4 @@ FROM nginx:alpine AS app
 
 WORKDIR /usr/share/nginx/html
 COPY --from=build /build/dist/ ./
+COPY ./src/favicon.ico ./

@@ -53,7 +53,8 @@ metadata:
   name: backend
 spec:
   rules:
-    - http:
+    - host: k8s-overview
+      http:
         paths:
           - path: /todos
             backend:
