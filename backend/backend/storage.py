@@ -9,7 +9,7 @@ from backend.todos import Todo
 # noinspection SqlNoDataSourceInspection
 class Storage:
     def __init__(self, database_uri: str):
-        self._db = sqlalchemy.create_engine(database_uri)
+        self._db = sqlalchemy.create_engine(database_uri, pool_recycle=30)
 
     def retrieve_todos(self) -> List[Todo]:
         return [Todo(todo[1], todo[0]) for todo in

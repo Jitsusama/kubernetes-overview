@@ -12,7 +12,7 @@ def main(server: Server):
 
 
 if __name__ == '__main__':
-    listening_port = os.environ.get('LISTENING_PORT', 8080)
+    listening_port = int(os.environ.get('LISTENING_PORT', '8080'))
     database_uri = os.environ.get('STORAGE_DB_URI')
 
     if not database_uri:
