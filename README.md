@@ -33,10 +33,9 @@ existing.
 # Deployment Steps
 
 You can run the following commands to deploy the solution into a Kubernetes
-cluster:
+cluster (**NOTE**: *GCP doesn't require the kube-system configuration*):
 
 ```bash
 $ kubectl apply -f ./deploy/kube-system -R
-$ kubectl apply -f ./deploy/demo-webapp/namespace.yaml
 $ kubectl apply -f ./deploy/demo-webapp -R
 ```

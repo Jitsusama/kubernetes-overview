@@ -1,3 +1,6 @@
+#
+# Creates instances of the backend web service.
+#
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,6 +33,9 @@ spec:
               port: 8080
               path: /healthy
 ---
+#
+# Exposes a backend web service load balancer to the rest of the cluster.
+#
 apiVersion: v1
 kind: Service
 metadata:
@@ -38,25 +44,9 @@ metadata:
   namespace: demo-webapp
   name: backend
 spec:
+  type: NodePort
   ports:
     - port: 8080
       protocol: TCP
   selector:
     eastlink/app: backend
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  labels:
-    eastlink/app: backend
-  namespace: demo-webapp
-  name: backend
-spec:
-  rules:
-    - host: k8s-overview
-      http:
-        paths:
-          - path: /todos
-            backend:
-              serviceName: backend
-              servicePort: 8080

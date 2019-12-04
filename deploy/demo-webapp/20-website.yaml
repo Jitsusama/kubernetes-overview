@@ -1,3 +1,6 @@
+#
+# Creates instances of the website server.
+#
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,6 +29,9 @@ spec:
             tcpSocket:
               port: 80
 ---
+#
+# Exposes a website server load balancer to the rest of the cluster.
+#
 apiVersion: v1
 kind: Service
 metadata:
@@ -34,25 +40,9 @@ metadata:
   namespace: demo-webapp
   name: website
 spec:
+  type: NodePort
   ports:
-    - port:  80
+    - port: 80
       protocol: TCP
   selector:
     eastlink/app: website
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  labels:
-    eastlink/app: website
-  namespace: demo-webapp
-  name: website
-spec:
-  rules:
-    - host: k8s-overview
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: website
-              servicePort: 80

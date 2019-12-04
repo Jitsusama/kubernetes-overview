@@ -1,3 +1,6 @@
+#
+# Creates a namespaced partition for the demo webapp.
+#
 apiVersion: v1
 kind: Namespace
 metadata:

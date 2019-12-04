@@ -1,0 +1,22 @@
+#
+# Exposes the internal website server and backend web service to the outside
+# world.
+#
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: demo-webapp
+  name: ingress
+spec:
+  rules:
+    - host: k8s-overview
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: website
+              servicePort: 80
+          - path: /todos
+            backend:
+              serviceName: backend
+              servicePort: 8080
